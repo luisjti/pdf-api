@@ -31,4 +31,16 @@ router.post('/generate-pdf', async (req, res) => {
     }
 });
 
+router.get('/pdf-html', async (req, res) => {
+    try {
+        const pdf2html = require('pdf2html');
+        const html = await pdf2html.html('./proposta.pdf');
+        console.log(html)
+        res.send('ok')
+      
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
 module.exports = router;
