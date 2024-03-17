@@ -9,7 +9,6 @@ router.post('/generate-pdf', async (req, res) => {
         // The entire request body is passed to the template, allowing for dynamic data usage
         const data = req.body.data;
         const templateName = req.body.template
-
         const templateHtml = await fs.readFile(`./templates/${templateName}.html`, 'utf8');
     
         const template = handlebars.compile(templateHtml);
