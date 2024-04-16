@@ -18,9 +18,23 @@ router.post('/generate-pdf', async (req, res) => {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.setContent(html);
-        const pdfBuffer = await page.pdf({ format: 'A4' });
+        const pdfBuffer = await page.pdf(
+            { 
+            format: 'A4', 
+            margin: {
+                top: "0mm",
+                right: "0mm",
+                bottom: "0mm",
+                left: "0mm"
+                }
+            });
         await browser.close();
 
+        const pdfPath = `./saved_pdfs/${templateName}-${Date.now()}.pdf`;
+
+        // Salvar o PDF no sistema de arquivos
+        await fs.writeFile(pdfPath, pdfBuffer);
+        
         // Send the generated PDF as a response
         res.setHeader('Content-Type', 'application/pdf');
         res.send(pdfBuffer);
