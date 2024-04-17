@@ -15,7 +15,7 @@ router.post('/generate-pdf', async (req, res) => {
         const html = template(data);
         
         // Use Puppeteer to generate a PDF from the HTML
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({args: ['--no-sandbox']});
         const page = await browser.newPage();
         await page.setContent(html);
         const pdfBuffer = await page.pdf(
